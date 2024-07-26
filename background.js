@@ -8,7 +8,6 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "highlight") {
-    console.log("HELLOOO");
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: extractHash,
@@ -31,7 +30,9 @@ function extractHash() {
         }
         const newText = `${data.text || ""}${hash}\n`;
         chrome.storage.local.set({ text: newText });
+        return;
       });
     }
   }
+  window.alert("Unable to find the merge commit hash");
 }

@@ -1,3 +1,19 @@
-.highlighted {
-    background-color: yellow !important;
+.highlight-1{
+    background-color: #ff659f !important;
+}
+
+.highlight-2{
+    background-color: #67dfff !important;
+}
+
+.highlight-3{
+    background-color: #83f18d !important;
+}
+
+.highlight-4{
+    background-color: #b581fe !important;
+}
+
+.highlight-5{
+    background-color: #fcf151 !important;
 }

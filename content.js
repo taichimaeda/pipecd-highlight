@@ -15,6 +15,15 @@ chrome.storage.onChanged.addListener(() => {
   });
 });
 
+function hashString(string) {
+  let hash = 0;
+  if (string.length === 0) return hash;
+  for (const char of string) {
+    hash ^= char.charCodeAt(0);
+  }
+  return hash;
+}
+
 function highlightItems(text) {
   if (text === undefined) {
     return;
@@ -22,7 +31,9 @@ function highlightItems(text) {
 
   const aEls = document.querySelectorAll("a");
   for (const aEl of aEls) {
-    aEl.classList.remove("highlighted");
+    for (let i = 1; i <= 5; i++) {
+      aEl.classList.remove(`highlight-${i}`);
+    }
   }
 
   const hashes = text.split("\n").filter((hash) => hash !== "");
@@ -34,7 +45,8 @@ function highlightItems(text) {
         if (aEl === null) {
           continue;
         }
-        aEl.classList.add("highlighted");
+        const index = (hashString(hash) % 5) + 1;
+        aEl.classList.add(`highlight-${index}`);
       }
     }
   }
