@@ -1,0 +1,9 @@
+main {
+    padding: 10px;
+}
+
+textarea {
+    width: 300px;
+    margin: 0;
+    font-size: 12px;
+}

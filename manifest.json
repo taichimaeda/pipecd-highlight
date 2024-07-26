@@ -1,0 +1,23 @@
+{
+  "name": "_PipeCD Highlight",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+    
+  },
+  "content_scripts": [
+    {
+        "matches": [
+            "http://pipecd.jp/*",
+            "https://pipecd.jp/*"
+        ],
+        "css": ["content.css"],
+        "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab"
+  ]
+}
