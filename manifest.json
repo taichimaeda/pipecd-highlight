@@ -10,14 +10,22 @@
     {
         "matches": [
             "http://pipecd.jp/*",
-            "https://pipecd.jp/*"
+            "https://pipecd.jp/*",
+            "http://github.com/*",
+            "https://github.com/*" 
         ],
         "css": ["content.css"],
         "js": ["content.js"]
     }
   ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "contextMenus",
+    "scripting"
   ]
 }

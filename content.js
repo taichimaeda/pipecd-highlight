@@ -1,8 +1,6 @@
 const observer = new MutationObserver(() => {
   chrome.storage.local.get("text", (data) => {
-    if (data.text !== undefined) {
-      highlightUlEls(data.text);
-    }
+    highlightItems(data.text);
   });
 });
 
@@ -11,13 +9,17 @@ observer.observe(document.body, {
   subtree: true,
 });
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.text !== undefined) {
-    highlightUlEls(message.text);
-  }
+chrome.storage.onChanged.addListener(() => {
+  chrome.storage.local.get("text", (data) => {
+    highlightItems(data.text);
+  });
 });
 
-function highlightUlEls(text) {
+function highlightItems(text) {
+  if (text === undefined) {
+    return;
+  }
+
   const aEls = document.querySelectorAll("a");
   for (const aEl of aEls) {
     aEl.classList.remove("highlighted");
