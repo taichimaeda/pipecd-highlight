@@ -30,8 +30,8 @@ function extractHash() {
         }
         const newText = `${data.text || ""}${hash}\n`;
         chrome.storage.local.set({ text: newText });
-        return;
       });
+      return;
     }
   }
   window.alert("Unable to find the merge commit hash");
