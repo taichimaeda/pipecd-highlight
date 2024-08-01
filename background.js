@@ -10,13 +10,18 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["all"],
   });
   chrome.contextMenus.create({
-    id: "clear",
-    title: "Clear all PRs",
+    id: "unhighlight-all",
+    title: "Clear all highlights",
     contexts: ["all"],
   });
   chrome.contextMenus.create({
     id: "remind",
     title: "Remind me of this PR",
+    contexts: ["all"],
+  });
+  chrome.contextMenus.create({
+    id: "unremind-all",
+    title: "Clear all reminders",
     contexts: ["all"],
   });
 });
@@ -35,16 +40,22 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         function: unhighlight,
       });
       break;
-    case "clear":
+    case "unhighlight-all":
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        function: clear,
+        function: unhighlightAll,
       });
       break;
     case "remind":
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         function: remind,
+      });
+      break;
+    case "unremind-all":
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: unremindAll,
       });
       break;
   }
@@ -97,9 +108,11 @@ function unhighlight() {
   });
 }
 
-function clear() {
+function unhighlightAll() {
   chrome.storage.local.set({ text: "" });
 }
+
+const timeoutIds = [];
 
 function remind() {
   // NOTE: This cannot be extracted to a function because of `chrome.scripting.executeScript`
@@ -115,7 +128,12 @@ function remind() {
     window.alert("Unable to find the merge commit hash");
   }
 
-  setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     alert(`Don't forget to check PR: ${hash}`);
   }, 1000 * 60 * 30);
+  timeoutIds.push(timeoutId);
+}
+
+function unremindAll() {
+  timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
 }
